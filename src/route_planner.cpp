@@ -21,7 +21,7 @@ RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, floa
 // - Node objects have a distance method to determine the distance to another node.
 
 float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
-  return node->distance(end_node);
+  return node->distance(*end_node);
 }
 
 
@@ -37,7 +37,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
   	for (RouteModel::Node* neighbor_node: current_node->neighbors) {
       neighbor_node->parent = current_node;
       neighbor_node->h_value = RoutePlanner::CalculateHValue(neighbor_node);
-      neighbor_node->g_value = current_node->g_value + 1;
+      neighbor_node->g_value = current_node->distance(*neighbor_node);
       neighbor_node->visited = true;
       open_list.push_back(neighbor_node);
     }
@@ -64,7 +64,6 @@ void CellSort(std::vector<RouteModel::Node*> *open_list) {
 RouteModel::Node *RoutePlanner::NextNode() {
   CellSort(&open_list);
   
-  //std::sort(open_list->begin(), open_list.end())
   RouteModel::Node *current_node = open_list.back();
   open_list.pop_back();
   
@@ -109,10 +108,8 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 // - Store the final path in the m_Model.path attribute before the method exits. This path will then be displayed on the map tile.
 
 void RoutePlanner::AStarSearch() {
-  	RouteModel::Node *current_node = nullptr;
     // TODO: Implement your solution here.
-  	current_node = start_node;
-  	RoutePlanner::AddNeighbors(current_node);
+  	RoutePlanner::AddNeighbors(start_node);
   	while (open_list.size() > 0) {
   		RouteModel::Node* next_node = RoutePlanner::NextNode();
   		if (next_node == end_node) {
