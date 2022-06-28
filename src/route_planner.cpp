@@ -38,7 +38,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
       if (neighbor_node->visited == false) {
       neighbor_node->parent = current_node;
       neighbor_node->h_value = RoutePlanner::CalculateHValue(neighbor_node);
-      neighbor_node->g_value = current_node->distance(*neighbor_node);
+      neighbor_node->g_value = current_node->g_value + current_node->distance(*neighbor_node);
       neighbor_node->visited = true;
       open_list.push_back(neighbor_node);
       }
@@ -112,7 +112,7 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 void RoutePlanner::AStarSearch() {
     // TODO: Implement your solution here.
   	start_node->visited=true;
-  	RoutePlanner::AddNeighbors(start_node);
+  	open_list.push_back(start_node);
   	while (open_list.size() > 0) {
   		RouteModel::Node* next_node = RoutePlanner::NextNode();
   		if (next_node == end_node) {
