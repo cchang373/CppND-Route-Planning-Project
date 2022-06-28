@@ -10,6 +10,24 @@
 
 using namespace std::experimental;
 
+int getInput() {
+  float start_x, start_y, end_x, end_y;
+  std::cout << "Enter the start position: \n";
+  std::cout << "start_x: \n";
+  std::cin >> start_x;
+  std::cout << "start_y: \n";
+  std::cin >> start_y;
+  	
+  std::cout << "Enter the end position: \n";
+  std::cout << "end_x: \n";
+  std::cin >> end_x;
+  std::cout << "end_y: \n";
+  std::cin >> end_y;
+  
+  return start_x, start_y, end_x, end_y;
+}
+
+
 static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
 {   
     std::ifstream is{path, std::ios::binary | std::ios::ate};
@@ -53,21 +71,10 @@ int main(int argc, const char **argv)
     }
     //Complete this TODO to satisfy Project Rubric Criterias of User Input
   
-    // TODO 1: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
+    // Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
     // user input for these values using std::cin. Pass the user input to the
     // RoutePlanner object below in place of 10, 10, 90, 90.
-  	float start_x, start_y, end_x, end_y;
-  	std::cout << "Enter the start position: \n";
-  	std::cout << "start_x: \n";
-  	std::cin >> start_x;
-  	std::cout << "start_y: \n";
-  	std::cin >> start_y;
-  	
-  	std::cout << "Enter the end position: \n";
-  	std::cout << "end_x: \n";
-  	std::cin >> end_x;
-  	std::cout << "end_y: \n";
-  	std::cin >> end_y;
+  	float start_x, start_y, end_x, end_y = getInput();
 
     // Build Model.
     RouteModel model{osm_data};
